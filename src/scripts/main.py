@@ -5,6 +5,8 @@ from RichDB import RichDB
 from apscheduler.schedulers.blocking import BlockingScheduler
 from logging.handlers import TimedRotatingFileHandler
 import logging
+import os
+import sys
 
 
 def global_init():
@@ -86,8 +88,9 @@ def daily_update_indexes():
                           name="下午2")
 
 
+# 将工作路径切换到main脚本目录，方便docker部署
+os.chdir(os.path.dirname(sys.argv[0]))
 DB_PATH = pathlib.Path("../data/fortunes.db")
-
 DB_CLIENT = RichDB(DB_PATH)
 INDEXES = [Index.CSI300, Index.CSI500]
 STOCK_POOL = []
